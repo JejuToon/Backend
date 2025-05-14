@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class FolktaleDetailDto {
+public class FolktaleOverviewDto {
 
     Long id;
     String title;

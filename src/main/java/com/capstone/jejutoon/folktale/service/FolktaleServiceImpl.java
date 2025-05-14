@@ -5,8 +5,8 @@ import com.capstone.jejutoon.exception.folktale.FolktaleNotFoundException;
 import com.capstone.jejutoon.folktale.converter.FolktaleConverter;
 import com.capstone.jejutoon.folktale.domain.Folktale;
 import com.capstone.jejutoon.folktale.domain.Location;
-import com.capstone.jejutoon.folktale.dto.response.FolktaleDetailDto;
 import com.capstone.jejutoon.folktale.dto.response.FolktaleListDto;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleOverviewDto;
 import com.capstone.jejutoon.folktale.repository.FolktaleCategoryRepository;
 import com.capstone.jejutoon.folktale.repository.FolktaleDetailRepository;
 import com.capstone.jejutoon.folktale.repository.FolktaleRepository;
@@ -35,7 +35,7 @@ public class FolktaleServiceImpl implements FolktaleService {
 
     @Override
     @Transactional(readOnly = true)
-    public FolktaleDetailDto getFolktaleDetail(Long folktaleId) {
+    public FolktaleOverviewDto getFolktaleOverview(Long folktaleId) {
         Folktale folktale = folktaleRepository.findById(folktaleId)
                 .orElseThrow(() -> new FolktaleNotFoundException(folktaleId));
 
@@ -43,7 +43,7 @@ public class FolktaleServiceImpl implements FolktaleService {
         List<Location> locations = locationRepository.findByFolktaleId(folktale.getId());
         List<Long> folktaleDetailIds = folktaleDetailRepository.findByFolktaleId(folktale.getId());
 
-        return FolktaleConverter.toFolktaleDetailDto(folktale, locations, categories, folktaleDetailIds);
+        return FolktaleConverter.toFolktaleOverviewDto(folktale, locations, categories, folktaleDetailIds);
     }
 
     @Override

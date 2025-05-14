@@ -22,4 +22,9 @@ public interface ScenarioRepository extends JpaRepository<Scenario, Long> {
             "JOIN Choice c ON s.id = c.scenario.id " +
             "WHERE s.id = :scenarioId")
     List<String> findChoicesById(@Param("scenarioId") Long scenarioId);
+
+    @Query("SELECT s.question " +
+            "FROM Scenario s " +
+            "WHERE s.folktaleDetail.id = :folktaleDetailId")
+    String findQuestionByFolktaleDetailId(@Param("folktaleDetailId") Long folktaleDetailId);
 }

@@ -5,4 +5,5 @@ import com.capstone.jejutoon.folktale.dto.response.FolktaleScenarioDto;
 public interface FolktaleDetailService {
 
     FolktaleScenarioDto getFolktaleDetail(Long folktaleDetailId);
+    void chooseFolktaleScenario(Long folktaleDetailId, String choice);
 }

@@ -1,5 +1,9 @@
 package com.capstone.jejutoon.folktale.service;
 
+import com.capstone.jejutoon.customizedFolktale.domain.CustomizedDetail;
+import com.capstone.jejutoon.customizedFolktale.domain.MemberFolktale;
+import com.capstone.jejutoon.customizedFolktale.repository.CustomizedDetailRepository;
+import com.capstone.jejutoon.exception.customizedFolkrtale.MemberFolktaleNotFoundException;
 import com.capstone.jejutoon.exception.folktale.FolktaleDetailNotFoundException;
 import com.capstone.jejutoon.folktale.converter.FolktaleDetailConverter;
 import com.capstone.jejutoon.folktale.domain.FolktaleDetail;
@@ -19,6 +23,7 @@ public class FolktaleDetailServiceImpl implements FolktaleDetailService {
 
     private final FolktaleDetailRepository folktaleDetailRepository;
     private final ScenarioRepository scenarioRepository;
+    private final CustomizedDetailRepository customizedDetailRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -34,5 +39,26 @@ public class FolktaleDetailServiceImpl implements FolktaleDetailService {
         }
 
         return FolktaleDetailConverter.toFolktaleRealDetailDto(folktaleDetail, null, null);
+    }
+
+    @Override
+    @Transactional
+    public void chooseFolktaleScenario(Long folktaleDetailId, String choice) {
+        FolktaleDetail folktaleDetail = folktaleDetailRepository.findById(folktaleDetailId)
+                .orElseThrow(() -> new FolktaleDetailNotFoundException(folktaleDetailId));
+
+        String question = scenarioRepository.findQuestionByFolktaleDetailId(folktaleDetail.getId());
+
+        String customizedContent = (folktaleDetail.getContent() + question).replace("???", choice);
+
+        MemberFolktale memberFolktale = folktaleDetailRepository.findMemberFolktaleByFolktaleDetailId(folktaleDetail.getId())
+                .orElseThrow(() -> new MemberFolktaleNotFoundException("folktaleDetail", folktaleDetail.getId()));
+
+        // TODO: 이미지 생성 api 연결 필요.
+
+        CustomizedDetail customizedDetail = FolktaleDetailConverter
+                .toCustomizedDetailEntity(memberFolktale, customizedContent, "exampleImage.com");
+
+        customizedDetailRepository.save(customizedDetail);
     }
 }

@@ -1,5 +1,7 @@
 package com.capstone.jejutoon.folktale.converter;
 
+import com.capstone.jejutoon.customizedFolktale.domain.CustomizedDetail;
+import com.capstone.jejutoon.customizedFolktale.domain.MemberFolktale;
 import com.capstone.jejutoon.folktale.domain.FolktaleDetail;
 import com.capstone.jejutoon.folktale.dto.response.FolktaleScenarioDto;
 
@@ -16,6 +18,16 @@ public class FolktaleDetailConverter {
                 .imageUrl(folktaleDetail.getImageUrl())
                 .question(question)
                 .choices(choices)
+                .build();
+    }
+
+    public static CustomizedDetail toCustomizedDetailEntity(
+            MemberFolktale memberFolktale, String content, String imageUrl
+    ) {
+        return CustomizedDetail.builder()
+                .memberFolktale(memberFolktale)
+                .content(content)
+                .imageUrl(imageUrl)
                 .build();
     }
 }

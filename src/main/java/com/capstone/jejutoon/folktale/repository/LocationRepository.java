@@ -14,5 +14,10 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     @Query("SELECT l " +
             "FROM Location l " +
             "WHERE l.folktale.id IN :folktaleIds")
-    public List<Location> findByFolktaleIdIn(@Param("folktaleIds") List<Long> folktaleIds);
+    List<Location> findByFolktaleIdIn(@Param("folktaleIds") List<Long> folktaleIds);
+
+    @Query("SELECT l " +
+            "FROM Location l " +
+            "WHERE l.folktale.id = :folktaleId")
+    List<Location> findByFolktaleId(@Param("folktaleId") Long folktaleId);
 }

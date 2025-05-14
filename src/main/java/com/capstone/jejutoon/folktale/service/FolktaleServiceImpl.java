@@ -1,11 +1,14 @@
 package com.capstone.jejutoon.folktale.service;
 
 import com.capstone.jejutoon.common.dto.response.PageResponse;
+import com.capstone.jejutoon.exception.folktale.FolktaleNotFoundException;
 import com.capstone.jejutoon.folktale.converter.FolktaleConverter;
 import com.capstone.jejutoon.folktale.domain.Folktale;
 import com.capstone.jejutoon.folktale.domain.Location;
-import com.capstone.jejutoon.folktale.dto.response.FolktaleList;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleDetailDto;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleListDto;
 import com.capstone.jejutoon.folktale.repository.FolktaleCategoryRepository;
+import com.capstone.jejutoon.folktale.repository.FolktaleDetailRepository;
 import com.capstone.jejutoon.folktale.repository.FolktaleRepository;
 import com.capstone.jejutoon.folktale.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +31,11 @@ public class FolktaleServiceImpl implements FolktaleService {
     private final FolktaleRepository folktaleRepository;
     private final LocationRepository locationRepository;
     private final FolktaleCategoryRepository folktaleCategoryRepository;
+    private final FolktaleDetailRepository folktaleDetailRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponse<FolktaleList> getAllFolktales(int page) {
+    public PageResponse<FolktaleListDto> getAllFolktales(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(
                 Sort.Order.asc("title")
         ));
@@ -51,13 +55,26 @@ public class FolktaleServiceImpl implements FolktaleService {
                         folktaleCategoryRepository::findCategoryNamesByFolktaleId
                 ));
 
-        List<FolktaleList> folktaleLists = folktales.stream()
-                .map(folktale -> FolktaleConverter.toFolktaleBase(
+        List<FolktaleListDto> folktaleLists = folktales.stream()
+                .map(folktale -> FolktaleConverter.toFolktaleListDto(
                         folktale,
                         locationMap.get(folktale.getId()),
                         categoryMap.get(folktale.getId())
                 )).toList();
 
         return new PageResponse<>(folktaleLists, folktales);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FolktaleDetailDto getFolktaleDetail(Long folktaleId) {
+        Folktale folktale = folktaleRepository.findById(folktaleId)
+                .orElseThrow(() -> new FolktaleNotFoundException(folktaleId));
+
+        List<String> categories = folktaleCategoryRepository.findCategoryNamesByFolktaleId(folktale.getId());
+        List<Location> locations = locationRepository.findByFolktaleId(folktale.getId());
+        List<Long> folktaleDetailIds = folktaleDetailRepository.findByFolktaleId(folktale.getId());
+
+        return FolktaleConverter.toFolktaleDetailDto(folktale, locations, categories, folktaleDetailIds);
     }
 }

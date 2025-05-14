@@ -2,7 +2,8 @@ package com.capstone.jejutoon.folktale.converter;
 
 import com.capstone.jejutoon.folktale.domain.Folktale;
 import com.capstone.jejutoon.folktale.domain.Location;
-import com.capstone.jejutoon.folktale.dto.response.FolktaleList;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleDetailDto;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleListDto;
 import com.capstone.jejutoon.folktale.dto.response.LocationDto;
 
 import java.util.List;
@@ -16,16 +17,31 @@ public class FolktaleConverter {
                 .build();
     }
 
-    public static FolktaleList toFolktaleBase(
+    public static FolktaleListDto toFolktaleListDto(
             Folktale folktale, List<Location> locations, List<String> categories
     ) {
         List<LocationDto> locationDtos = locations.stream().map(FolktaleConverter::toLocationDto).toList();
 
-        return FolktaleList.builder()
+        return FolktaleListDto.builder()
                 .id(folktale.getId())
                 .title(folktale.getTitle())
                 .location(locationDtos)
                 .categories(categories)
+                .build();
+    }
+
+    public static FolktaleDetailDto toFolktaleDetailDto(
+            Folktale folktale, List<Location> locations, List<String> categories, List<Long> folktaleDetailIds
+    ) {
+        List<LocationDto> locationDtoList = locations.stream()
+                .map(FolktaleConverter::toLocationDto).toList();
+
+        return FolktaleDetailDto.builder()
+                .id(folktale.getId())
+                .title(folktale.getTitle())
+                .location(locationDtoList)
+                .categories(categories)
+                .folktaleDetailIds(folktaleDetailIds)
                 .build();
     }
 }

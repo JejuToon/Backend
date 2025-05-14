@@ -15,13 +15,13 @@ public class Scenario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "scenarioId")
-    Long id;
+    private Long id;
 
     @Column(length = 50)
-    String question;
+    private String question;
 
     @JoinColumn(name = "folktaleDetailId")
     @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    FolktaleDetail folktaleDetail;
+    private FolktaleDetail folktaleDetail;
 }

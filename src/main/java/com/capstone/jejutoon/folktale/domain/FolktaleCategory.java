@@ -15,15 +15,15 @@ public class FolktaleCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folktaleCategoryId")
-    Long id;
+    private Long id;
 
     @JoinColumn(name = "folktaleId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    Folktale folktale;
+    private Folktale folktale;
 
     @JoinColumn(name = "categoryId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    Category category;
+    private Category category;
 }

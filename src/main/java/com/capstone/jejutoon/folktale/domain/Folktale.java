@@ -13,8 +13,8 @@ public class Folktale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folktaleId")
-    Long id;
+    private Long id;
 
     @Column(nullable = false, length = 30)
-    String title;
+    private String title;
 }

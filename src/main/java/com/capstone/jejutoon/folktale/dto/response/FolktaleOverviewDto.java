@@ -9,9 +9,9 @@ import java.util.List;
 @Getter
 public class FolktaleOverviewDto {
 
-    Long id;
-    String title;
-    List<LocationDto> location;
-    List<String> categories;
-    List<Long> folktaleDetailIds;
+    private Long id;
+    private String title;
+    private List<LocationDto> location;
+    private List<String> categories;
+    private List<Long> folktaleDetailIds;
 }

@@ -15,5 +15,6 @@ public class Category {
     @Column(name = "categoryId")
     Long id;
 
+    @Column(nullable = false, length = 10)
     String name;
 }

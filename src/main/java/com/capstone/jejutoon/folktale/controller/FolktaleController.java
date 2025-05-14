@@ -15,20 +15,21 @@ public class FolktaleController {
 
     private final FolktaleService folktaleService;
 
-    @GetMapping("/folktale")
-    ResponseEntity<PageResponse<FolktaleListDto>> getAllFolktale(
-            @RequestParam(value = "page", defaultValue = "0") Integer page
-    ) {
-        PageResponse<FolktaleListDto> response = folktaleService.getAllFolktales(page);
-
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/folktale/{folktaleId}")
     ResponseEntity<FolktaleDetailDto> getFolktaleDetail(
             @PathVariable("folktaleId") Long folktaleId
     ) {
         FolktaleDetailDto response = folktaleService.getFolktaleDetail(folktaleId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/folktale")
+    ResponseEntity<PageResponse<FolktaleListDto>> getFolktaleList(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "category", defaultValue = "") String category
+    ) {
+        PageResponse<FolktaleListDto> response = folktaleService.getFolktaleList(page, category);
 
         return ResponseEntity.ok(response);
     }

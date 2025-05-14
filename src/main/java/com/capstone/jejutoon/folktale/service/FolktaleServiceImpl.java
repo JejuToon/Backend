@@ -35,12 +35,35 @@ public class FolktaleServiceImpl implements FolktaleService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponse<FolktaleListDto> getAllFolktales(int page) {
+    public FolktaleDetailDto getFolktaleDetail(Long folktaleId) {
+        Folktale folktale = folktaleRepository.findById(folktaleId)
+                .orElseThrow(() -> new FolktaleNotFoundException(folktaleId));
+
+        List<String> categories = folktaleCategoryRepository.findCategoryNamesByFolktaleId(folktale.getId());
+        List<Location> locations = locationRepository.findByFolktaleId(folktale.getId());
+        List<Long> folktaleDetailIds = folktaleDetailRepository.findByFolktaleId(folktale.getId());
+
+        return FolktaleConverter.toFolktaleDetailDto(folktale, locations, categories, folktaleDetailIds);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponse<FolktaleListDto> getFolktaleList(int page, String category) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(
                 Sort.Order.asc("title")
         ));
 
-        Page<Folktale> folktales = folktaleRepository.findAll(pageable);
+        Page<Folktale> folktales;
+        if (category.isEmpty()) {
+            folktales = folktaleRepository.findAll(pageable);
+        } else {
+            folktales = folktaleRepository.findFolktalesByCategory(category, pageable);
+        }
+
+        return getFolktaleList(folktales);
+    }
+
+    private PageResponse<FolktaleListDto> getFolktaleList(Page<Folktale> folktales) {
         List<Long> folktaleIds = folktales.stream()
                 .map(Folktale::getId)
                 .toList();
@@ -63,18 +86,5 @@ public class FolktaleServiceImpl implements FolktaleService {
                 )).toList();
 
         return new PageResponse<>(folktaleLists, folktales);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public FolktaleDetailDto getFolktaleDetail(Long folktaleId) {
-        Folktale folktale = folktaleRepository.findById(folktaleId)
-                .orElseThrow(() -> new FolktaleNotFoundException(folktaleId));
-
-        List<String> categories = folktaleCategoryRepository.findCategoryNamesByFolktaleId(folktale.getId());
-        List<Location> locations = locationRepository.findByFolktaleId(folktale.getId());
-        List<Long> folktaleDetailIds = folktaleDetailRepository.findByFolktaleId(folktale.getId());
-
-        return FolktaleConverter.toFolktaleDetailDto(folktale, locations, categories, folktaleDetailIds);
     }
 }

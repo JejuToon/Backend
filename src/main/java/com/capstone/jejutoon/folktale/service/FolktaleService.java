@@ -6,6 +6,6 @@ import com.capstone.jejutoon.folktale.dto.response.FolktaleListDto;
 
 public interface FolktaleService {
 
-    PageResponse<FolktaleListDto> getAllFolktales(int page);
     FolktaleDetailDto getFolktaleDetail(Long folktaleId);
+    PageResponse<FolktaleListDto> getFolktaleList(int page, String category);
 }

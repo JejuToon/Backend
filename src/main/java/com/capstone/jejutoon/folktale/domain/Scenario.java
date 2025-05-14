@@ -20,12 +20,6 @@ public class Scenario {
     @Column(length = 50)
     String question;
 
-    @Column(length = 20)
-    String option1;
-
-    @Column(length = 20)
-    String option2;
-
     @JoinColumn(name = "folktaleDetailId")
     @OneToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

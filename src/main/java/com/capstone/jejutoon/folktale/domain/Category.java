@@ -8,13 +8,13 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Folktale {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "folktaleId")
+    @Column(name = "categoryId")
     private Long id;
 
-    @Column(nullable = false, length = 30)
-    private String title;
+    @Column(nullable = false, length = 10)
+    private String name;
 }

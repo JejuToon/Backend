@@ -15,13 +15,13 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "locationId")
-    Long id;
+    private Long id;
 
-    double latitude;
-    double longitude;
+    private double latitude;
+    private double longitude;
 
     @JoinColumn(name = "folktaleId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    Folktale folktale;
+    private Folktale folktale;
 }

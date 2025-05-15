@@ -1,0 +1,11 @@
+package com.capstone.jejutoon.folktale.service;
+
+import com.capstone.jejutoon.common.dto.response.PageResponse;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleListDto;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleOverviewDto;
+
+public interface FolktaleService {
+
+    FolktaleOverviewDto getFolktaleOverview(Long folktaleId);
+    PageResponse<FolktaleListDto> getFolktaleList(int page, String category);
+}

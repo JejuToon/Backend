@@ -10,22 +10,17 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class FolktaleDetail {
+public class Choice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "folktaleDetailId")
+    @Column(name = "choiceId")
     private Long id;
 
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String content;
+    private String answer;
 
-    @Column(length = 2048)
-    private String imageUrl;
-
-    @JoinColumn(name = "folktaleId")
+    @JoinColumn(name = "scenarioId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Folktale folktale;
+    private Scenario scenario;
 }

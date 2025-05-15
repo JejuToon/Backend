@@ -1,6 +1,6 @@
 spring:
   config:
-    import: classpath:SECRET.yml
+    import: classpath:secret.yml
   profiles:
     active: local
 

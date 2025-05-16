@@ -18,7 +18,7 @@ public class FolktaleConverter {
     }
 
     public static FolktaleListDto toFolktaleListDto(
-            Folktale folktale, List<Location> locations, List<String> categories
+            Folktale folktale, List<Location> locations, List<String> categories, double score
     ) {
         List<LocationDto> locationDtos = locations.stream().map(FolktaleConverter::toLocationDto).toList();
 
@@ -27,11 +27,13 @@ public class FolktaleConverter {
                 .title(folktale.getTitle())
                 .location(locationDtos)
                 .categories(categories)
+                .summary(folktale.getSummary())
+                .score(score)
                 .build();
     }
 
     public static FolktaleOverviewDto toFolktaleOverviewDto(
-            Folktale folktale, List<Location> locations, List<String> categories, List<Long> folktaleDetailIds
+            Folktale folktale, List<Location> locations, List<String> categories, List<Long> folktaleDetailIds, Double score
     ) {
         List<LocationDto> locationDtoList = locations.stream()
                 .map(FolktaleConverter::toLocationDto).toList();
@@ -41,6 +43,9 @@ public class FolktaleConverter {
                 .title(folktale.getTitle())
                 .location(locationDtoList)
                 .categories(categories)
+                .summary(folktale.getSummary())
+                .characterInfo(folktale.getCharacterInfo())
+                .score(score)
                 .folktaleDetailIds(folktaleDetailIds)
                 .build();
     }

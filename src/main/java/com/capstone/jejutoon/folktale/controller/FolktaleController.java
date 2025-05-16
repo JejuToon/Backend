@@ -1,9 +1,9 @@
 package com.capstone.jejutoon.folktale.controller;
 
 import com.capstone.jejutoon.common.dto.response.PageResponse;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleDetailDto;
 import com.capstone.jejutoon.folktale.dto.response.FolktaleListDto;
 import com.capstone.jejutoon.folktale.dto.response.FolktaleOverviewDto;
-import com.capstone.jejutoon.folktale.dto.response.FolktaleScenarioDto;
 import com.capstone.jejutoon.folktale.service.FolktaleDetailService;
 import com.capstone.jejutoon.folktale.service.FolktaleService;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +38,10 @@ public class FolktaleController {
     }
 
     @GetMapping("/folktale-detail/{folktaleDetailId}")
-    ResponseEntity<FolktaleScenarioDto> getFolktaleScenario(
+    ResponseEntity<FolktaleDetailDto> getFolktaleScenario(
             @PathVariable("folktaleDetailId") Long folktaleDetailId
     ) {
-        FolktaleScenarioDto response = folktaleDetailService.getFolktaleDetail(folktaleDetailId);
+        FolktaleDetailDto response = folktaleDetailService.getFolktaleDetail(folktaleDetailId);
 
         return ResponseEntity.ok(response);
     }

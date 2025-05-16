@@ -13,6 +13,7 @@ public class MemberFolktaleConverter {
                 .folktale(folktale)
                 .member(member)
                 .characterImageUrl(imageUrl)
+                .score(null)
                 .build();
     }
 }

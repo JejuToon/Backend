@@ -7,11 +7,11 @@ import java.util.List;
 
 @Builder
 @Getter
-public class FolktaleScenarioDto {
+public class FolktaleDetailDto {
 
     private Long id;
     private String content;
     private String imageUrl;
-    private String question;
-    private List<String> choices;
+    private List<ChoiceDto> choices;
+    private String realStory;
 }

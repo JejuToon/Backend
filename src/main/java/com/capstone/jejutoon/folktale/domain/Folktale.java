@@ -17,4 +17,10 @@ public class Folktale {
 
     @Column(nullable = false, length = 30)
     private String title;
+
+    @Column(length = 2048)
+    private String summary;
+
+    @Column(length = 2048)
+    private String characterInfo;
 }

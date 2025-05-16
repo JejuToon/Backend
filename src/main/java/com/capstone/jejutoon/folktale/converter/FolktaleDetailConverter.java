@@ -2,22 +2,30 @@ package com.capstone.jejutoon.folktale.converter;
 
 import com.capstone.jejutoon.customizedFolktale.domain.CustomizedDetail;
 import com.capstone.jejutoon.customizedFolktale.domain.MemberFolktale;
+import com.capstone.jejutoon.folktale.domain.Choice;
 import com.capstone.jejutoon.folktale.domain.FolktaleDetail;
-import com.capstone.jejutoon.folktale.dto.response.FolktaleScenarioDto;
+import com.capstone.jejutoon.folktale.dto.response.ChoiceDto;
+import com.capstone.jejutoon.folktale.dto.response.FolktaleDetailDto;
 
 import java.util.List;
 
 public class FolktaleDetailConverter {
 
-    public static FolktaleScenarioDto toFolktaleRealDetailDto(
-            FolktaleDetail folktaleDetail, String question, List<String> choices
+    public static FolktaleDetailDto toFolktaleDetailDto(
+            FolktaleDetail folktaleDetail, List<Choice> choices
     ) {
-        return FolktaleScenarioDto.builder()
+        List<ChoiceDto> choiceDtoList = choices.isEmpty()
+                ? null
+                : choices.stream()
+                .map(FolktaleDetailConverter::toChoiceDto)
+                .toList();
+
+        return FolktaleDetailDto.builder()
                 .id(folktaleDetail.getId())
                 .content(folktaleDetail.getContent())
                 .imageUrl(folktaleDetail.getImageUrl())
-                .question(question)
-                .choices(choices)
+                .choices(choiceDtoList)
+                .realStory(folktaleDetail.getRealStory())
                 .build();
     }
 
@@ -28,6 +36,13 @@ public class FolktaleDetailConverter {
                 .memberFolktale(memberFolktale)
                 .content(content)
                 .imageUrl(imageUrl)
+                .build();
+    }
+
+    public static ChoiceDto toChoiceDto(Choice choice) {
+        return ChoiceDto.builder()
+                .id(choice.getId())
+                .answer(choice.getAnswer())
                 .build();
     }
 }

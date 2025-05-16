@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -39,11 +40,16 @@ public class FolktaleServiceImpl implements FolktaleService {
         Folktale folktale = folktaleRepository.findById(folktaleId)
                 .orElseThrow(() -> new FolktaleNotFoundException(folktaleId));
 
+        Double averageScore = folktaleRepository.findAverageScoreByFolktaleId(folktale.getId());
+        if (averageScore == null) {
+            averageScore = 0.0;
+        }
+
         List<String> categories = folktaleCategoryRepository.findCategoryNamesByFolktaleId(folktale.getId());
         List<Location> locations = locationRepository.findByFolktaleId(folktale.getId());
         List<Long> folktaleDetailIds = folktaleDetailRepository.findByFolktaleId(folktale.getId());
 
-        return FolktaleConverter.toFolktaleOverviewDto(folktale, locations, categories, folktaleDetailIds);
+        return FolktaleConverter.toFolktaleOverviewDto(folktale, locations, categories, folktaleDetailIds, averageScore);
     }
 
     @Override
@@ -78,12 +84,25 @@ public class FolktaleServiceImpl implements FolktaleService {
                         folktaleCategoryRepository::findCategoryNamesByFolktaleId
                 ));
 
+        List<Object[]> scoreResults = folktaleRepository.findAverageScoresByFolktaleIds(folktaleIds);
+        Map<Long, Double> scoreMap = scoreResults.stream()
+                .collect(Collectors.toMap(
+                        row -> (Long) row[0],
+                        row -> row[1] == null ? 0.0 : ((Number) row[1]).doubleValue()
+                ));
+
         List<FolktaleListDto> folktaleLists = folktales.stream()
-                .map(folktale -> FolktaleConverter.toFolktaleListDto(
-                        folktale,
-                        locationMap.get(folktale.getId()),
-                        categoryMap.get(folktale.getId())
-                )).toList();
+                .map(folktale -> {
+                    Long id = folktale.getId();
+                    return FolktaleConverter.toFolktaleListDto(
+                            folktale,
+                            locationMap.get(id),
+                            categoryMap.get(id),
+                            scoreMap.getOrDefault(id, 0.0)
+                    );
+                })
+                .sorted(Comparator.comparing(FolktaleListDto::getScore).reversed())
+                .toList();
 
         return new PageResponse<>(folktaleLists, folktales);
     }

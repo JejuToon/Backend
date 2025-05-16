@@ -19,8 +19,12 @@ public class Choice {
 
     private String answer;
 
-    @JoinColumn(name = "scenarioId")
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String nextStory;
+
+    @JoinColumn(name = "folktaleDetailId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Scenario scenario;
+    private FolktaleDetail folktaleDetail;
 }

@@ -31,4 +31,6 @@ public class MemberFolktale {
 
     @Column(nullable = false, length = 2048)
     String characterImageUrl;
+
+    Integer score;
 }

@@ -8,4 +8,5 @@ public interface FolktaleService {
 
     FolktaleOverviewDto getFolktaleOverview(Long folktaleId);
     PageResponse<FolktaleListDto> getFolktaleList(int page, String category);
+    PageResponse<FolktaleListDto> getNearByFolktaleList(int page, Double latitude, Double longitude);
 }

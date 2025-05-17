@@ -37,6 +37,17 @@ public class FolktaleController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/folktale/nearby")
+    ResponseEntity<PageResponse<FolktaleListDto>> getNearByFolktaleList(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam("lat") Double latitude,
+            @RequestParam("long") Double longitude
+    ) {
+        PageResponse<FolktaleListDto> response = folktaleService.getNearByFolktaleList(page, latitude, longitude);
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/folktale-detail/{folktaleDetailId}")
     ResponseEntity<FolktaleDetailDto> getFolktaleScenario(
             @PathVariable("folktaleDetailId") Long folktaleDetailId

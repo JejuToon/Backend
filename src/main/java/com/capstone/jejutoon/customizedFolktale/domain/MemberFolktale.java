@@ -1,5 +1,6 @@
 package com.capstone.jejutoon.customizedFolktale.domain;
 
+import com.capstone.jejutoon.common.domain.BaseTimeEntity;
 import com.capstone.jejutoon.folktale.domain.Folktale;
 import com.capstone.jejutoon.member.domain.Member;
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class MemberFolktale {
+public class MemberFolktale extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

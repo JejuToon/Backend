@@ -27,7 +27,8 @@ public class FolktaleConverter {
                 .title(folktale.getTitle())
                 .location(locationDtos)
                 .categories(categories)
-                .summary(folktale.getSummary())
+                .description(folktale.getDescription())
+                .thumbnail(folktale.getThumbnail())
                 .score(score)
                 .build();
     }
@@ -43,8 +44,10 @@ public class FolktaleConverter {
                 .title(folktale.getTitle())
                 .location(locationDtoList)
                 .categories(categories)
+                .description(folktale.getDescription())
                 .summary(folktale.getSummary())
                 .characterInfo(folktale.getCharacterInfo())
+                .thumbnail(folktale.getThumbnail())
                 .score(score)
                 .folktaleDetailIds(folktaleDetailIds)
                 .build();

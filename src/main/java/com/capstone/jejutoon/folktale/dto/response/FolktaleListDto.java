@@ -13,6 +13,7 @@ public class FolktaleListDto {
     private String title;
     private List<LocationDto> location;
     private List<String> categories;
-    private String summary;
+    private String description;
+    private String thumbnail;
     private double score;
 }

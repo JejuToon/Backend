@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
@@ -54,7 +53,8 @@ public class SecurityConfig {
 
             configuration.setAllowedMethods(Collections.singletonList("*"));
             configuration.setAllowedOrigins(Arrays.asList(
-                    "http://localhost:5173"
+                    "http://localhost:5173",
+                    "https://2025-1-capstone.vercel.app"
             ));
             configuration.setAllowedHeaders(Collections.singletonList("*"));
             configuration.setAllowCredentials(true);

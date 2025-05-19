@@ -10,7 +10,10 @@ import com.capstone.jejutoon.member.domain.Member;
 import com.capstone.jejutoon.member.repository.MemberRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -27,9 +30,6 @@ public class KakaoServiceImpl implements KakaoService {
 
     @Value("${oauth.kakao.redirect-uri}")
     private String redirectUri;
-
-    @Value("${oauth.kakao.redirect-admin-uri}")
-    private String redirectUriForAdmin;
 
     @Value("${oauth.kakao.client-secret}")
     private String clientSecret;
@@ -49,7 +49,7 @@ public class KakaoServiceImpl implements KakaoService {
         String origin = httpRequest.getHeader("Origin");
 
         if (origin.equals("http://localhost:5173")) {
-            return "http://localhost:5173";
+            return "http://localhost:5173/oauth/kakao";
         } else {
             return redirectUri;
         }

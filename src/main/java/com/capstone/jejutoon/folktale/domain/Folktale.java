@@ -25,7 +25,7 @@ public class Folktale {
     private String description;
 
     @Column(length = 2048)
-    private String characterInfo;
+    private String prompt;
 
     @Column(length = 2048)
     private String thumbnail;

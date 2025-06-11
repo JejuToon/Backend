@@ -1,27 +1,24 @@
 package com.capstone.jejutoon.common.service;
 
+import com.capstone.jejutoon.customizedFolktale.dto.response.ChoiceForRedis;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class RedisService {
 
     private final StringRedisTemplate redisTemplate;
-
-    // 결제 승인 제한 시간 10분
-    private static final long ORDER_EXPIRE_TIME = 1000 * 60 * 10;
-
-    public void saveImageUrl(String key, String imageUrl) {
-        redisTemplate.opsForValue().set(key, imageUrl);
-    }
-
-    public String getImageUrl(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
+    private final ObjectMapper objectMapper;
 
     private String getRefreshTokenKey(String id) {
         return "refreshToken:" + id;
@@ -40,5 +37,39 @@ public class RedisService {
     // Refresh Token 삭제
     public void deleteRefreshToken(String id) {
         redisTemplate.delete(getRefreshTokenKey(id));
+    }
+
+    public void saveChoice(Long memberFolktaleId, ChoiceForRedis choice) {
+        String redisKey = "memberFolktale:" + memberFolktaleId;
+        try {
+            String choiceJson = objectMapper.writeValueAsString(choice);
+            SetOperations<String, String> setOps = redisTemplate.opsForSet();
+            setOps.add(redisKey, choiceJson);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize Choice", e);
+        }
+    }
+
+    public String getChoicePrompt(Long memberFolktaleId) {
+        String redisKey = "memberFolktale:" + memberFolktaleId;
+        SetOperations<String, String> setOps = redisTemplate.opsForSet();
+        Set<String> values = setOps.members(redisKey);
+
+        if (values.isEmpty()) {
+            return "";
+        }
+
+        List<String> prompts = new ArrayList<>();
+
+        for (String json : values) {
+            try {
+                ChoiceForRedis choice = objectMapper.readValue(json, ChoiceForRedis.class);
+                prompts.add(choice.getPrompt());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("Failed to deserialize Choice", e);
+            }
+        }
+
+        return String.join(" ", prompts);
     }
 }

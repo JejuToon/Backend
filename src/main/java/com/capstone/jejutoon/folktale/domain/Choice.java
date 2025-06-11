@@ -21,7 +21,12 @@ public class Choice {
 
     @Lob
     @Column(columnDefinition = "TEXT")
-    private String nextStory;
+    private String content;
+
+    @Column(length = 2048)
+    private String imageUrl;
+
+    private String prompt;
 
     @JoinColumn(name = "folktaleDetailId")
     @ManyToOne(fetch = FetchType.LAZY)

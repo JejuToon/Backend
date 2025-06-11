@@ -56,14 +56,4 @@ public class FolktaleController {
 
         return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/folktale-detail/{folktaleDetailId}")
-    ResponseEntity<Void> chooseFolktaleScenario(
-            @PathVariable("folktaleDetailId") Long folktaleDetailId,
-            @RequestParam("choice") String choice
-    ) {
-        folktaleDetailService.chooseFolktaleScenario(folktaleDetailId, choice);
-
-        return ResponseEntity.ok().build();
-    }
 }

@@ -5,6 +5,7 @@ import com.capstone.jejutoon.customizedFolktale.domain.MemberFolktale;
 import com.capstone.jejutoon.folktale.domain.Choice;
 import com.capstone.jejutoon.folktale.domain.FolktaleDetail;
 import com.capstone.jejutoon.folktale.dto.response.ChoiceDto;
+import com.capstone.jejutoon.folktale.dto.response.ChoiceScenarioDto;
 import com.capstone.jejutoon.folktale.dto.response.FolktaleDetailDto;
 
 import java.util.List;
@@ -25,7 +26,16 @@ public class FolktaleDetailConverter {
                 .content(folktaleDetail.getContent())
                 .imageUrl(folktaleDetail.getImageUrl())
                 .choices(choiceDtoList)
-                .realStory(folktaleDetail.getRealStory())
+                .build();
+    }
+
+    public static ChoiceScenarioDto toChoiceScenarioDto(
+            Choice choice
+    ) {
+        return ChoiceScenarioDto.builder()
+                .id(choice.getId())
+                .content(choice.getContent())
+                .imageUrl(choice.getImageUrl())
                 .build();
     }
 

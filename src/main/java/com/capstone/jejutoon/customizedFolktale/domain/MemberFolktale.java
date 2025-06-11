@@ -30,8 +30,12 @@ public class MemberFolktale extends BaseTimeEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     Member member;
 
-    @Column(nullable = false, length = 2048)
+    @Column(length = 2048)
     String characterImageUrl;
 
     Integer score;
+
+    public void updateCharacterImageUrl(String characterImageUrl) {
+        this.characterImageUrl = characterImageUrl;
+    }
 }

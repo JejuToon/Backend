@@ -12,9 +12,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 
 @Component
@@ -44,6 +47,28 @@ public class S3Service {
         }
 
         String uploadedUrl = amazonS3.getUrl(bucketName, fileName).toString();
+        return URLDecoder.decode(uploadedUrl, StandardCharsets.UTF_8);
+    }
+
+    public String uploadBase64Image(String base64Image, String path, String fileName) {
+        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+        InputStream inputStream = new ByteArrayInputStream(imageBytes);
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(imageBytes.length);
+        metadata.setContentType("image/png");
+
+        String fullFileName = path + UUID.randomUUID() + "_" + fileName;
+
+        try {
+            amazonS3.putObject(bucketName, fullFileName, inputStream, metadata);
+        } catch (AmazonServiceException e) {
+            throw new S3AccessDeniedException();
+        } catch (AmazonClientException e) {
+            throw new S3NotConnectedException();
+        }
+
+        String uploadedUrl = amazonS3.getUrl(bucketName, fullFileName).toString();
         return URLDecoder.decode(uploadedUrl, StandardCharsets.UTF_8);
     }
 }

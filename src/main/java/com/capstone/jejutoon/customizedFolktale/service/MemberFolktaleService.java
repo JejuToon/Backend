@@ -1,11 +1,15 @@
 package com.capstone.jejutoon.customizedFolktale.service;
 
 import com.capstone.jejutoon.common.dto.response.PageResponse;
+import com.capstone.jejutoon.customizedFolktale.dto.response.CreatedMemberFolktaleDto;
 import com.capstone.jejutoon.customizedFolktale.dto.response.MyFolktaleDto;
-import org.springframework.web.multipart.MultipartFile;
+import com.capstone.jejutoon.folktale.dto.response.ChoiceScenarioDto;
 
 public interface MemberFolktaleService {
 
-    void createMemberFolktale(Long folktaleId, MultipartFile image);
+    CreatedMemberFolktaleDto createMemberFolktale(Long folktaleId);
     PageResponse<MyFolktaleDto> getMyFolktales(int page);
+    void createMyCharacterImage(Long memberFolktaleId);
+    ChoiceScenarioDto chooseFolktaleScenario(Long memberFolktaleId, Long choiceId);
+    void addFolktaleImagePrompt(Long memberFolktaleId, String prompt);
 }

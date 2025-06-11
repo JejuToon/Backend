@@ -20,4 +20,10 @@ public interface MemberFolktaleRepository extends JpaRepository<MemberFolktale, 
             "FROM MemberFolktale mf " +
             "WHERE mf.member.id = :memberId")
     Page<MemberFolktale> findByMemberId(@Param("memberId") Long memberId, Pageable pageable);
+
+    @Query("SELECT f.prompt " +
+            "FROM MemberFolktale mf " +
+            "JOIN Folktale f ON mf.folktale.id = f.id " +
+            "WHERE mf.id = :memberFolktaleId")
+    String findPromptById(@Param("memberFolktaleId") Long memberFolktaleId);
 }

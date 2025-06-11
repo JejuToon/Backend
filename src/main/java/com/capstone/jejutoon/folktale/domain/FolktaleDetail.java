@@ -24,10 +24,6 @@ public class FolktaleDetail {
     @Column(length = 2048)
     private String imageUrl;
 
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String realStory;
-
     @JoinColumn(name = "folktaleId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

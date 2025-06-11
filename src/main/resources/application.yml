@@ -2,7 +2,7 @@ spring:
   config:
     import: classpath:secret.yml
   profiles:
-    active: ec2
+    active: local
 
   main:
     time-zone: Asia/Seoul

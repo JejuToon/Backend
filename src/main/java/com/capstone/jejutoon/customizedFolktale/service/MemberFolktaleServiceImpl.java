@@ -6,6 +6,7 @@ import com.capstone.jejutoon.config.auth.PrincipalDetailsService;
 import com.capstone.jejutoon.customizedFolktale.converter.CustomizedFolktaleConverter;
 import com.capstone.jejutoon.customizedFolktale.converter.MemberFolktaleConverter;
 import com.capstone.jejutoon.customizedFolktale.domain.MemberFolktale;
+import com.capstone.jejutoon.customizedFolktale.dto.request.CompleteFolktaleDto;
 import com.capstone.jejutoon.customizedFolktale.dto.response.ChoiceForRedis;
 import com.capstone.jejutoon.customizedFolktale.dto.response.CreatedMemberFolktaleDto;
 import com.capstone.jejutoon.customizedFolktale.dto.response.MyFolktaleDto;
@@ -82,11 +83,13 @@ public class MemberFolktaleServiceImpl implements MemberFolktaleService {
 
     @Override
     @Transactional
-    public void createMyCharacterImage(Long memberFolktaleId, Integer score) {
+    public void createMyCharacterImage(Long memberFolktaleId, CompleteFolktaleDto request) {
         MemberFolktale memberFolktale = memberFolktaleRepository.findById(memberFolktaleId)
                 .orElseThrow(() -> new MemberFolktaleNotFoundException("memberFolktale", memberFolktaleId));
 
-        memberFolktale.updateScore(score);
+        memberFolktale.updateScore(request.getScore());
+        request.getChoiceIds()
+                .forEach(choiceId -> chooseFolktaleScenario(memberFolktaleId, choiceId));
 
         String choicePrompt = redisService.getChoicePrompt(memberFolktale.getId());
         String basePrompt = memberFolktaleRepository.findPromptById(memberFolktale.getId());

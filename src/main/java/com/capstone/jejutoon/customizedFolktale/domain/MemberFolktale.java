@@ -38,4 +38,8 @@ public class MemberFolktale extends BaseTimeEntity {
     public void updateCharacterImageUrl(String characterImageUrl) {
         this.characterImageUrl = characterImageUrl;
     }
+
+    public void updateScore(Integer score) {
+        this.score = score;
+    }
 }

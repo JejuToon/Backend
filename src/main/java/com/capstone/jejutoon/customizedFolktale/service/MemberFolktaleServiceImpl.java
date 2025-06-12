@@ -82,9 +82,11 @@ public class MemberFolktaleServiceImpl implements MemberFolktaleService {
 
     @Override
     @Transactional
-    public void createMyCharacterImage(Long memberFolktaleId) {
+    public void createMyCharacterImage(Long memberFolktaleId, Integer score) {
         MemberFolktale memberFolktale = memberFolktaleRepository.findById(memberFolktaleId)
                 .orElseThrow(() -> new MemberFolktaleNotFoundException("memberFolktale", memberFolktaleId));
+
+        memberFolktale.updateScore(score);
 
         String choicePrompt = redisService.getChoicePrompt(memberFolktale.getId());
         String basePrompt = memberFolktaleRepository.findPromptById(memberFolktale.getId());

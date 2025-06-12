@@ -11,18 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class CustomizedFolktaleController {
 
-//    private final CustomizedDetailService customizedDetailService;
     private final MemberFolktaleService memberFolktaleService;
-
-
-//    @RequestMapping("/customized-folktale/{customizedDetailId}")
-//    ResponseEntity<CustomizedFolktaleDto> getCustomizedDetail(
-//            @PathVariable("customizedDetailId") Long customizedDetailId
-//    ) {
-//        CustomizedFolktaleDto response = customizedDetailService.getCustomizedDetail(customizedDetailId);
-//
-//        return ResponseEntity.ok(response);
-//    }
 
     @PostMapping("/folktale/{folktaleId}")
     ResponseEntity<CreatedMemberFolktaleDto> createMemberFolktale(
@@ -35,9 +24,10 @@ public class CustomizedFolktaleController {
 
     @PostMapping("/my-folktale/{memberFolktaleId}")
     ResponseEntity<Void> completeMemberFolktale(
-            @PathVariable("memberFolktaleId") Long memberFolktaleId
+            @PathVariable("memberFolktaleId") Long memberFolktaleId,
+            @RequestParam("score") Integer score
     ) {
-        memberFolktaleService.createMyCharacterImage(memberFolktaleId);
+        memberFolktaleService.createMyCharacterImage(memberFolktaleId, score);
 
         return ResponseEntity.ok().build();
     }

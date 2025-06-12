@@ -9,7 +9,7 @@ public interface MemberFolktaleService {
 
     CreatedMemberFolktaleDto createMemberFolktale(Long folktaleId);
     PageResponse<MyFolktaleDto> getMyFolktales(int page);
-    void createMyCharacterImage(Long memberFolktaleId);
+    void createMyCharacterImage(Long memberFolktaleId, Integer score);
     ChoiceScenarioDto chooseFolktaleScenario(Long memberFolktaleId, Long choiceId);
     void addFolktaleImagePrompt(Long memberFolktaleId, String prompt);
 }

@@ -56,18 +56,24 @@ public class FolktaleServiceImpl implements FolktaleService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageResponse<FolktaleListDto> getFolktaleList(int page, String category) {
+    public PageResponse<FolktaleListDto> getFolktaleList(int page) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(
                 Sort.Order.asc("title")
         ));
 
-        Page<Folktale> folktales;
-        if (category.isEmpty()) {
-            folktales = folktaleRepository.findAll(pageable);
-        } else {
-            folktales = folktaleRepository.findFolktalesByCategory(category, pageable);
-        }
+        Page<Folktale> folktales= folktaleRepository.findAll(pageable);
 
+        return getFolktaleList(folktales, true);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponse<FolktaleListDto> getFolktaleListByCategory(int page, String category) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(
+                Sort.Order.asc("title")
+        ));
+
+        Page<Folktale> folktales = folktaleRepository.findFolktalesByCategory(category, pageable);
         return getFolktaleList(folktales, true);
     }
 
@@ -105,6 +111,17 @@ public class FolktaleServiceImpl implements FolktaleService {
         );
 
         return getFolktaleList(folktales, false);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponse<FolktaleListDto> getFolktaleListByTitle(int page, String title) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(
+                Sort.Order.asc("title")
+        ));
+
+        Page<Folktale> folktales = folktaleRepository.findByTitle("%" + title + "%", pageable);
+        return getFolktaleList(folktales, true);
     }
 
 

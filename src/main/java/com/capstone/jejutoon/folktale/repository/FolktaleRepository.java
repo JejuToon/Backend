@@ -37,4 +37,14 @@ public interface FolktaleRepository extends JpaRepository<Folktale, Long> {
             "WHERE f.id IN :folktaleIds " +
             "GROUP BY f.id")
     List<Object[]> findAverageScoresByFolktaleIds(@Param("folktaleIds") List<Long> folktaleIds);
+
+    @Query(
+            value = "SELECT f " +
+                    "FROM Folktale f " +
+                    "WHERE f.title LIKE :title",
+            countQuery = "SELECT COUNT(f) " +
+                    "FROM Folktale f " +
+                    "WHERE f.title LIKE :title"
+    )
+    Page<Folktale> findByTitle(@Param("title") String title, Pageable pageable);
 }

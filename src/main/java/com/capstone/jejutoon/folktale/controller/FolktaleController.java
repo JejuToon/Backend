@@ -30,9 +30,18 @@ public class FolktaleController {
     @GetMapping("/folktale")
     ResponseEntity<PageResponse<FolktaleListDto>> getFolktaleList(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "category", defaultValue = "") String category
+            @RequestParam(value = "category", defaultValue = "") String category,
+            @RequestParam(value = "title", defaultValue = "") String title
     ) {
-        PageResponse<FolktaleListDto> response = folktaleService.getFolktaleList(page, category);
+        PageResponse<FolktaleListDto> response;
+
+        if (!category.isEmpty()) {
+            response = folktaleService.getFolktaleListByCategory(page, category);
+        } else if (!title.isEmpty()) {
+            response = folktaleService.getFolktaleListByTitle(page, title);
+        } else {
+            response = folktaleService.getFolktaleList(page);
+        }
 
         return ResponseEntity.ok(response);
     }

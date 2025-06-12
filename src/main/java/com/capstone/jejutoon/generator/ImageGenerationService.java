@@ -82,7 +82,6 @@ public class ImageGenerationService {
         multipartData.add("background", "transparent");
         multipartData.add("quality", "medium");
         multipartData.add("size", "1024x1024");
-        // 필요시: multipartData.add("response_format", "b64_json");
 
         // 4. WebClient 전송
         return webClient.post()

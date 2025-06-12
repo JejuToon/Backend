@@ -1,5 +1,6 @@
 package com.capstone.jejutoon.customizedFolktale.controller;
 
+import com.capstone.jejutoon.customizedFolktale.dto.request.CompleteFolktaleDto;
 import com.capstone.jejutoon.customizedFolktale.dto.response.CreatedMemberFolktaleDto;
 import com.capstone.jejutoon.customizedFolktale.service.MemberFolktaleService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,9 @@ public class CustomizedFolktaleController {
     @PostMapping("/my-folktale/{memberFolktaleId}")
     ResponseEntity<Void> completeMemberFolktale(
             @PathVariable("memberFolktaleId") Long memberFolktaleId,
-            @RequestParam("score") Integer score
-    ) {
-        memberFolktaleService.createMyCharacterImage(memberFolktaleId, score);
+            @RequestBody CompleteFolktaleDto request
+            ) {
+        memberFolktaleService.createMyCharacterImage(memberFolktaleId, request);
 
         return ResponseEntity.ok().build();
     }

@@ -11,4 +11,5 @@ public class MyFolktaleDto {
     private String title;
     private String summary;
     private String characterImageUrl;
+    private int score;
 }

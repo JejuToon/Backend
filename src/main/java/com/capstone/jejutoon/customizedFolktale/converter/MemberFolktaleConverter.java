@@ -29,6 +29,7 @@ public class MemberFolktaleConverter {
                 .title(memberFolktale.getFolktale().getTitle())
                 .summary(memberFolktale.getFolktale().getSummary())
                 .characterImageUrl(memberFolktale.getCharacterImageUrl())
+                .score(memberFolktale.getScore() == null ? 0 : memberFolktale.getScore())
                 .build();
     }
 

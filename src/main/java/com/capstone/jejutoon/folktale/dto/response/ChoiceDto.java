@@ -9,4 +9,5 @@ public class ChoiceDto {
 
     private Long id;
     private String answer;
+    private Long nextFolktaleDetailId;
 }

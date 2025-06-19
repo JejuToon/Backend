@@ -54,6 +54,7 @@ public class FolktaleDetailConverter {
         return ChoiceDto.builder()
                 .id(choice.getId())
                 .answer(choice.getAnswer())
+                .nextFolktaleDetailId(choice.getNextFolktaleDetailId() != null ? choice.getNextFolktaleDetailId() : null)
                 .build();
     }
 }

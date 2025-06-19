@@ -59,9 +59,10 @@ public class FolktaleController {
 
     @GetMapping("/folktale-detail/{folktaleDetailId}")
     ResponseEntity<FolktaleDetailDto> getFolktaleScenario(
-            @PathVariable("folktaleDetailId") Long folktaleDetailId
+            @PathVariable("folktaleDetailId") Long folktaleDetailId,
+            @RequestParam("voiceType") String voiceType
     ) {
-        FolktaleDetailDto response = folktaleDetailService.getFolktaleDetail(folktaleDetailId);
+        FolktaleDetailDto response = folktaleDetailService.getFolktaleDetail(folktaleDetailId, voiceType);
 
         return ResponseEntity.ok(response);
     }

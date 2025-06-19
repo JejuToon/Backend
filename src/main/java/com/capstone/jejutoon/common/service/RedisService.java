@@ -72,4 +72,9 @@ public class RedisService {
 
         return String.join(" ", prompts);
     }
+
+    public String getVoiceUrls(Long folktaleDetailId) {
+        String redisKey = "folktaleDetail:" + folktaleDetailId;
+        return redisTemplate.opsForValue().get(redisKey);
+    }
 }

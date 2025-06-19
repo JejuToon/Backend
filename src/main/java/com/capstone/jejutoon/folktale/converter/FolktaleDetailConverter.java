@@ -13,7 +13,7 @@ import java.util.List;
 public class FolktaleDetailConverter {
 
     public static FolktaleDetailDto toFolktaleDetailDto(
-            FolktaleDetail folktaleDetail, List<Choice> choices
+            FolktaleDetail folktaleDetail, List<Choice> choices, String voiceUrl
     ) {
         List<ChoiceDto> choiceDtoList = choices.isEmpty()
                 ? null
@@ -25,6 +25,7 @@ public class FolktaleDetailConverter {
                 .id(folktaleDetail.getId())
                 .content(folktaleDetail.getContent())
                 .imageUrl(folktaleDetail.getImageUrl())
+                .voiceUrl(voiceUrl)
                 .choices(choiceDtoList)
                 .build();
     }
@@ -53,6 +54,7 @@ public class FolktaleDetailConverter {
         return ChoiceDto.builder()
                 .id(choice.getId())
                 .answer(choice.getAnswer())
+                .nextFolktaleDetailId(choice.getNextFolktaleDetailId() != null ? choice.getNextFolktaleDetailId() : null)
                 .build();
     }
 }

@@ -15,6 +15,7 @@ public class FolktaleOverviewDto {
     private List<String> categories;
     private String description;
     private String summary;
+    private String story;
     private String characterInfo;
     private String thumbnail;
     private double score;

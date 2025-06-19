@@ -28,6 +28,8 @@ public class Choice {
 
     private String prompt;
 
+    private Long nextFolktaleDetailId;
+
     @JoinColumn(name = "folktaleDetailId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

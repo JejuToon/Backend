@@ -4,7 +4,6 @@ import com.capstone.jejutoon.common.service.RedisService;
 import com.capstone.jejutoon.customizedFolktale.converter.CustomizedFolktaleConverter;
 import com.capstone.jejutoon.customizedFolktale.domain.MemberFolktale;
 import com.capstone.jejutoon.customizedFolktale.dto.response.ChoiceForRedis;
-import com.capstone.jejutoon.customizedFolktale.repository.CustomizedDetailRepository;
 import com.capstone.jejutoon.exception.customizedFolkrtale.ChoiceNotFoundException;
 import com.capstone.jejutoon.exception.customizedFolkrtale.MemberFolktaleNotFoundException;
 import com.capstone.jejutoon.exception.folktale.FolktaleDetailNotFoundException;
@@ -26,19 +25,24 @@ import java.util.List;
 public class FolktaleDetailServiceImpl implements FolktaleDetailService {
 
     private final FolktaleDetailRepository folktaleDetailRepository;
-    private final CustomizedDetailRepository customizedDetailRepository;
     private final ChoiceRepository choiceRepository;
     private final RedisService redisService;
 
+    private final String AYA = "aya";
+    private final String CEDRIC = "cedric";
+    private final String WATSON = "watson";
+
     @Override
     @Transactional(readOnly = true)
-    public FolktaleDetailDto getFolktaleDetail(Long folktaleDetailId) {
+    public FolktaleDetailDto getFolktaleDetail(Long folktaleDetailId, String voiceType) {
         FolktaleDetail folktaleDetail = folktaleDetailRepository.findById(folktaleDetailId)
                 .orElseThrow(() -> new FolktaleDetailNotFoundException(folktaleDetailId));
 
+        String voiceUrl = getVoiceUrls(folktaleDetailId, voiceType);
+
         List<Choice> choices = choiceRepository.findChoicesByFolktaleDetailId(folktaleDetail.getId());
 
-        return FolktaleDetailConverter.toFolktaleDetailDto(folktaleDetail, choices);
+        return FolktaleDetailConverter.toFolktaleDetailDto(folktaleDetail, choices, voiceUrl);
     }
 
     @Override
@@ -57,5 +61,18 @@ public class FolktaleDetailServiceImpl implements FolktaleDetailService {
         redisService.saveChoice(memberFolktale.getId(), choiceForRedis);
 
         return FolktaleDetailConverter.toChoiceScenarioDto(choice);
+    }
+
+    private String getVoiceUrls(Long folktaleDetailId, String voiceType) {
+        String voiceUrls = redisService.getVoiceUrls(folktaleDetailId);
+        if (voiceType.equals(AYA)) {
+            return voiceUrls.split(",")[0]; // AYA 음성 URL
+        } else if (voiceType.equals(CEDRIC)) {
+            return voiceUrls.split(",")[1]; // CEDRIC 음성 URL
+        } else if (voiceType.equals(WATSON)) {
+            return voiceUrls.split(",")[2]; // WATSON 음성 URL
+        } else {
+            throw new IllegalArgumentException("Invalid voice type: " + voiceType);
+        }
     }
 }

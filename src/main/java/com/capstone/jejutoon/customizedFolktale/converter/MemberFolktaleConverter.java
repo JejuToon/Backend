@@ -25,7 +25,8 @@ public class MemberFolktaleConverter {
             MemberFolktale memberFolktale
     ) {
         return MyFolktaleDto.builder()
-                .id(memberFolktale.getId())
+                .folktaleId(memberFolktale.getFolktale().getId())
+                .memberFolktaleId(memberFolktale.getId())
                 .title(memberFolktale.getFolktale().getTitle())
                 .summary(memberFolktale.getFolktale().getSummary())
                 .characterImageUrl(memberFolktale.getCharacterImageUrl())

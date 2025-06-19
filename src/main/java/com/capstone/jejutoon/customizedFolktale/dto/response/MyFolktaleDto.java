@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public class MyFolktaleDto {
 
-    private Long id;
+    private Long folktaleId;
+    private Long memberFolktaleId;
     private String title;
     private String summary;
     private String characterImageUrl;

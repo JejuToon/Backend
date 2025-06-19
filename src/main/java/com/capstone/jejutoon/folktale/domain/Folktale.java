@@ -29,4 +29,8 @@ public class Folktale {
 
     @Column(length = 2048)
     private String thumbnail;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String story;
 }

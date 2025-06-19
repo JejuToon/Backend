@@ -46,6 +46,7 @@ public class FolktaleConverter {
                 .categories(categories)
                 .description(folktale.getDescription())
                 .summary(folktale.getSummary())
+                .story(folktale.getStory())
                 .thumbnail(folktale.getThumbnail())
                 .score(score)
                 .folktaleDetailIds(folktaleDetailIds)
